@@ -42,6 +42,7 @@ def create_png(
     #============================
     img_width = 2048
     img_height = 1366
+    text_offset = 180
     #============================
 
     # Font and size
@@ -68,8 +69,8 @@ def create_png(
     # Get size of text with font 
     text_size = font.getsize( text=img_text)
 
-    # Set y start pos for text
-    y_text = img_height/2 - (text_size[1] / 2) - 80
+    # Set y start pos for text (text_size[1] / 2)
+    y_text = img_height/2 - text_offset
 
 
     # Check if lines are to big for img res
@@ -96,7 +97,7 @@ def create_png(
                 font = ImageFont.truetype(font_path, font_size)
                 width, height = font.getsize(text=line)
             
-            y_text = img_height/2 - (height / 2) - 80 # Reset the img Y pos
+            y_text = img_height/2 - text_offset # Reset the img Y pos (text_size[1] / 2)
 
 
         
@@ -141,7 +142,11 @@ def font_pick_color():
 def generate_checker():
     res = txt.get()
     
-    font = font_listbox.get(font_listbox.curselection())
+    if not font_listbox.curselection():
+        font = default_font
+    else:
+        font = font_listbox.get(font_listbox.curselection())
+
 
     create_png(
         text=res, 
